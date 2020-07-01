@@ -8,19 +8,18 @@ public class TestMesh {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
-		Point p1 = new Point(0,0,0);
-		Point p2 = new Point(1,1,1);
-		Point p3 = new Point(0,1,0);
+
 		
+		Circle c1 = new Circle("asdas",10, new Point(00,0,100), 10);
+		Circle c2 = new Circle("dads",10, new Point(0,50,-100), 10);
 		
-		Point p4 = new Point(0,0,10);
+		//CreationOperations.loft(c2, c1, 20, 0.1).saveAsObjFile();
+	
+        //CreationOperations.loft(c1, c2, 200, 5).saveAsObjFile();;
 		
-		Face f1 = new Face(p1,p2,p3);
-		Vector v1 = new Vector(p4,p1);
-		
-		Circle c = new Circle(5, 100);
-	    CreationOperations.extrude(c, v1).saveAsObjFile();;
-		
+	     Mesh m = new Mesh("LOL");
+	     m.add(c1);
+	     m.saveAsObjFile();
 		
 		
 	}

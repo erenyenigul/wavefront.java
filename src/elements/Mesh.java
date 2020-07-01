@@ -9,20 +9,22 @@ import java.util.LinkedList;
 
 public class Mesh extends GeoElement{
 
-	private ArrayList<Face> faces;
+	private ArrayList<Surface> surfaces;
 	private String name;
 	
 	public Mesh(String name) {
-		faces = new ArrayList<>();
+		surfaces = new ArrayList<>();
 		this.name = name;
 	}
 	
-	public void addFace(Face face) {
-		faces.add(face);
+	public void add(Surface... surfaces ) {
+		for(Surface s: surfaces) {
+		   this.surfaces.add(s);
+		}
 	}
 	
-	public boolean removeFace(Face face) {
-		return faces.remove(face);
+	public boolean remove(Surface surface) {
+		return surfaces.remove(surface);
 	}
 	
 	public void saveAsObjFile() {
@@ -30,6 +32,8 @@ public class Mesh extends GeoElement{
 		StringBuilder renderedVertices = new StringBuilder();
 		StringBuilder renderedFaces = new StringBuilder();
 
+		ArrayList<Face>  faces = getAllFaces();
+		
 		for(Face face : faces) {
 			LinkedList<Integer> verticesOfFace = new LinkedList<Integer>();
 			
@@ -66,11 +70,19 @@ public class Mesh extends GeoElement{
 	}
 
 	
+	private ArrayList<Face> getAllFaces(){
+		ArrayList<Face> faces = new ArrayList<Face>();
+		for(Surface s : surfaces) {
+			faces.addAll(s.getFaces());
+		}
+		return faces;
+	}
+	
 	public String info() {
 		StringBuilder allInfo = new StringBuilder();
 		
 		allInfo.append("--Mesh named \""+name+"\" with following elements : \n");
-		for(Face f : faces)
+		for(Face f : getAllFaces())
 		  allInfo.append("--"+ f.info() + "\n");
 	
 		return allInfo.toString();

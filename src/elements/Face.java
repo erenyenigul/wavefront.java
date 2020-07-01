@@ -1,41 +1,61 @@
 package elements;
 
+import elements.GeoElement;
+
 public class Face extends GeoElement{
 
 	private Point[] vertices;
-	
-    private int divisions;
-	
-	public void setDivisions(int n) {
-		this.divisions = n;
-	}
-	
-	public int getDivisions() {
-		return this.divisions;
-	}
+   
 	
 	public Face(Point... vertices) {
 		this.vertices = vertices;
-		this.divisions = vertices.length;
-	}
-	
-	public Face(int divisions) {
-		this.divisions = divisions;
-		vertices = new Point[divisions];
 	}
 	
 	public Point[] getVertices() {
-		return vertices;
+		return vertices;	
+	}
+	
+	  public Vector getNormal() { 
+	  Vector v1 = new Vector(vertices[1]).subtract(new Vector(vertices[0]));
+	  Vector v2 = new Vector(vertices[1]).subtract(new Vector(vertices[2]));
+	  
+	  return v1.cross(v2).getUnitVector(); 
+	  }
+	 
+	public Point getCenterOfMass() {
+		double sumX = 0;
+		double sumY = 0;
+		double sumZ = 0;
+		int size = vertices.length;
+		for(Point p : vertices) {
+			sumX += p.getX();
+			sumY += p.getY();
+			sumZ += p.getZ();
+		}
+		return new Point(sumX/size, sumY/size, sumZ/size);
 		
 	}
 	
-	public Vector getNormal() {
-		Vector v1 = new Vector(vertices[0], vertices[1]);
-		Vector v2 = new Vector(vertices[1], vertices[2]);
-		
-		return v1.cross(v2);
+	public Face scale(double scaleFactor) {
+		Point centerOfMass = getCenterOfMass();
+		Point[] verticesOfScaledFace = new Point[vertices.length];
+		for(int i = 0; i<vertices.length; i++ ) {
+			Point p = vertices[i];
+			Vector shiftVector = new Vector(p, centerOfMass).scale(1-scaleFactor);
+			
+			verticesOfScaledFace[i] = p.shift(shiftVector);
+		}
+		return new Face(verticesOfScaledFace);
 	}
 	
+	public Face shift(Vector shiftVector) {
+		Point[] shiftedVertices = new Point[vertices.length];
+		for(int i = 0; i<vertices.length; i++ ) {
+			Point p = vertices[i];
+			shiftedVertices[i] = p.shift(shiftVector);
+		}
+		return new Face(shiftedVertices);
+	}
 	
 	public String info() {
 		

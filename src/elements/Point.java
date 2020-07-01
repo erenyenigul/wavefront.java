@@ -1,5 +1,7 @@
 package elements;
 
+import elements.Vector;
+
 public class Point extends GeoElement{
 
 	
@@ -35,15 +37,17 @@ public class Point extends GeoElement{
 	
 	public Point shift(Vector v) {
 		Point head= v.getHead();
-		Point tail = v.getTail();
 	
-		double shiftedX = head.x-tail.x + this.x;
-		double shiftedY = head.y-tail.y + this.y;
-		double shiftedZ = head.z-tail.z + this.z;
+		double shiftedX = head.x + this.x;
+		double shiftedY = head.y+ this.y;
+		double shiftedZ = head.z + this.z;
 		
 		return new Point(shiftedX, shiftedY, shiftedZ);
 	}
 	
+	public boolean equals(Point p) {
+		return p.getX() == this.x && p.getY() == this.y && p.getZ() == this.z;
+	}
 	
 	public String info() {
 		return 	"--Point on x:"+x+" y:"+y+" z:"+z; 
