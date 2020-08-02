@@ -1,6 +1,6 @@
 package elements;
 
-public class Circle extends Surface implements Divisible {
+public class Circle extends Surface {
 
 	
 	private double radius;
@@ -42,10 +42,8 @@ public class Circle extends Surface implements Divisible {
 	    	vertices[i] =  vertices[i].shift(new Vector(center));
 		}
 		
-		Face upper = new Face(vertices);
-		getFaces().add(upper);
-		getFaces().add(upper.rotate());
-		
+		Face f = new Face(vertices);
+		addFace(f);
 	}
 
 	@Override

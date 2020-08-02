@@ -45,12 +45,20 @@ public class Point extends GeoElement{
 		return new Point(shiftedX, shiftedY, shiftedZ);
 	}
 	
-	public boolean equals(Point p) {
+    @Override
+	public boolean equals(Object o) {
+		if( !(o instanceof Point)) return false;
+		Point p = (Point) o;
 		return p.getX() == this.x && p.getY() == this.y && p.getZ() == this.z;
 	}
 	
-	public String info() {
-		return 	"--Point on x:"+x+" y:"+y+" z:"+z; 
+    public int hashCode() {
+    	return (int) (31*this.x + 31*31*this.y + 31*31*31+this.y);
+    }
+    
+	
+	public String toString() {
+		return 	"("+x+", "+y+", "+z+")"; 
 	}
 	
 }

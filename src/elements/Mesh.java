@@ -9,22 +9,30 @@ import java.util.LinkedList;
 
 public class Mesh extends GeoElement{
 
-	private ArrayList<Surface> surfaces;
+	private ArrayList<Face> faces;
 	private String name;
 	
 	public Mesh(String name) {
-		surfaces = new ArrayList<>();
+		faces = new ArrayList<>();
 		this.name = name;
 	}
 	
-	public void add(Surface... surfaces ) {
-		for(Surface s: surfaces) {
-		   this.surfaces.add(s);
-		}
+	public void addAll(ArrayList<Face> faces) {
+			this.faces.addAll(faces);
 	}
 	
-	public boolean remove(Surface surface) {
-		return surfaces.remove(surface);
+	public void add(Face f) {
+		this.faces.add(f);
+	}
+	
+	public boolean removeFace(Face face) {
+		return faces.remove(face);
+	}
+	
+	//This method is implemented for rendering surfaces. This method below is implemented differently in Surface class
+	//as it has two different containers for faces (One for front one for bottom faces).
+	public ArrayList<Face> getFaces(){
+		return this.faces;
 	}
 	
 	public void saveAsObjFile() {
@@ -32,9 +40,7 @@ public class Mesh extends GeoElement{
 		StringBuilder renderedVertices = new StringBuilder();
 		StringBuilder renderedFaces = new StringBuilder();
 
-		ArrayList<Face>  faces = getAllFaces();
-		
-		for(Face face : faces) {
+		for(Face face : getFaces()) {
 			LinkedList<Integer> verticesOfFace = new LinkedList<Integer>();
 			
 			for(Point p : face.getVertices()) {
@@ -70,19 +76,11 @@ public class Mesh extends GeoElement{
 	}
 
 	
-	private ArrayList<Face> getAllFaces(){
-		ArrayList<Face> faces = new ArrayList<Face>();
-		for(Surface s : surfaces) {
-			faces.addAll(s.getFaces());
-		}
-		return faces;
-	}
-	
 	public String info() {
 		StringBuilder allInfo = new StringBuilder();
 		
 		allInfo.append("--Mesh named \""+name+"\" with following elements : \n");
-		for(Face f : getAllFaces())
+		for(Face f : faces)
 		  allInfo.append("--"+ f.info() + "\n");
 	
 		return allInfo.toString();
