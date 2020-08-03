@@ -4,15 +4,22 @@ import constants.GeoConstants;
 
 public class Line extends GeoElement{
 
-	
 	private Point p1;
 	private Point p2;
 	private int divisions;
 	private Point[] points;
 	private boolean isInfinite;
-	 
+	private Vector directionVector;
+	
 	public Line(Point p1, Point p2, boolean isInfinite) {
 		this(p1,p2, GeoConstants.DEFAULT_LINE_DIVISION, isInfinite);
+	}
+	
+	public Line(Point p, Vector directionVector) {
+		this.p1 = p;
+		this.p2 = p.shift(directionVector);
+		this.directionVector = directionVector;
+		this.isInfinite = true;
 	}
 	
 	public Line(Point p1, Point p2, int divisions, boolean isInfinite) {
@@ -22,6 +29,10 @@ public class Line extends GeoElement{
 		this.isInfinite = isInfinite;
 		this.points = new Point[divisions];
 		form();
+		
+		Vector v1 = new Vector(p1);
+		Vector v2 = new Vector(p2);
+		this.directionVector = v1.subtract(v2).getUnitVector();
 	}
 	
 	public void setDivisions(int n) {
@@ -38,18 +49,14 @@ public class Line extends GeoElement{
 	
 	
 	public Vector getDirectionVector() {
-	    Vector v1 = new Vector(p1);
-	    Vector v2 = new Vector(p2);
-	    return v1.subtract(v2);
+	   return this.directionVector;
 	}
 	
 	public boolean isPointOnLine(Point p) {
-	    Vector directionVector = this.getDirectionVector();
+	    Vector directionVector = getDirectionVector();
 	    Point headOfDirectionVector = directionVector.getHead();
-	    
-	    if(!isInfinite() && p1.distanceToPoint(p) + p2.distanceToPoint(p) != this.length() )
-	    	return false;
-	    return headOfDirectionVector.getX()/p.getX() == headOfDirectionVector.getY()/p.getY() &&  headOfDirectionVector.getY()/p.getY() == headOfDirectionVector.getZ()/p.getZ();
+	    Vector testVector = new Vector(p1, p);
+	    return testVector.getUnitVector().equals(directionVector) || testVector.getUnitVector().scale(-1).equals(directionVector);
 	}
 	
 	public double length() {
@@ -57,6 +64,13 @@ public class Line extends GeoElement{
 		  return p1.distanceToPoint(p2);
 		else
 		  return Double.MAX_VALUE;
+	}
+	
+	public double shortestDistanceToPoint(Point p) {
+		Vector u = new Vector(p, p1);
+		double uV = u.dot(directionVector);
+		double distance = Math.sqrt(Math.pow(u.length(),2)-Math.pow(uV,2));
+		return distance;
 	}
 	
 	public boolean isInfinite() {
@@ -76,6 +90,19 @@ public class Line extends GeoElement{
 			nextPoint = nextPoint.shift(shiftVector);
 			points[i] = nextPoint;
 		}
+	}
+	
+	public static int closestPoint(Line l, Point[] points) {
+		int closestIndex = 0;
+		double closestDistance = 0;
+		for(int i=0;i<points.length;i++) {
+			double distance = l.shortestDistanceToPoint(points[i]);
+			if(distance<closestDistance) {
+				closestDistance = distance;
+				closestIndex = i;
+			}
+		}
+		return closestIndex;
 	}
 
 }

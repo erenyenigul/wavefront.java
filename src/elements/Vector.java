@@ -112,7 +112,7 @@ public class Vector extends GeoElement{
          
          return new Vector(scaledHead);
     }
-	
+    
     public Vector rotate(double angle, Vector axisOfRotation) {
         return this.scale(Math.cos(angle)).add(axisOfRotation.cross(this).scale(Math.sin(angle))).add(axisOfRotation.scale(axisOfRotation.dot(this)*(1-Math.cos(angle)))); 
     }
@@ -120,13 +120,33 @@ public class Vector extends GeoElement{
     public boolean isZeroVector() {
     	return head.equals(Point.ORIGIN);
     }
-	
-    public boolean equals(Vector v) {
-    	return head.equals(v.getHead());
+    
+	@Override
+    public boolean equals(Object v) {
+		if(v instanceof Vector) {
+		    Vector vector = (Vector) v;
+			return head.equals(vector.getHead());
+		}
+		else {
+			return false;
+		}	
     }
     
 	public String info() {
-		return "--Vector with head on: \n" + head.info();   
+		return "--Vector with head on: \n" + head;   
 	}
+	
+	public static double determinant(Vector v1, Vector v2, Vector v3) {
+		Point p1 = v1.getHead();
+		Point p2 = v2.getHead();
+		Point p3 = v3.getHead();
+		double i = p1.getX()*(p2.getY()*p3.getZ()-p2.getZ()*p3.getY());
+		double j = p2.getX()*(p1.getY()*p3.getZ()-p1.getZ()*p3.getY());
+		double k = p3.getX()*(p1.getY()*p2.getZ()-p1.getZ()*p2.getY());
+		
+		return i-j+k;
+	}
+	
+	
 	
 }

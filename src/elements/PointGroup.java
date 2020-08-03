@@ -2,14 +2,18 @@ package elements;
 
 import java.util.ArrayList;
 
+import exceptions.NotEnoughVertexException;
+
 public class PointGroup extends GeoElement {
 	
 	private ArrayList<Point> points;
 
 	public PointGroup(Point...points) {
+
 		this.points = new ArrayList<>(points.length);
 		for(Point p : points) 
 			this.points.add(p);
+		
 	}
 
 	public ArrayList<Point> getPoints(){
@@ -38,9 +42,9 @@ public class PointGroup extends GeoElement {
 	public PointGroup scale(double scaleFactor) {
 		Point centerOfMass = getCenterOfMass();
 		Point[] scaledVertices = new Point[points.size()];
-		for (int i = points.size(); 0 < i; i--) {
+		for (int i = points.size()-1; -1 < i; i--) {
 			Point p = points.remove(i);
-			Vector shiftVector = new Vector(p, centerOfMass).scale(1 - scaleFactor);
+			Vector shiftVector = new Vector(p, centerOfMass).scale(1-scaleFactor);
 			Point scaledPoint = p.shift(shiftVector);
 			scaledVertices[i] = scaledPoint;
 		}
@@ -65,6 +69,15 @@ public class PointGroup extends GeoElement {
 		}
 		updateAll(reversed);
 		return this;
+	}
+	
+	public Point[] getPointsAsArray() {
+		Point[] duplicatePoints = new Point[points.size()];
+		int i = 0;
+		for(Point p: points) {
+			duplicatePoints[i++] = p;
+		}
+		return duplicatePoints;
 	}
 	
 	public PointGroup duplicate() {

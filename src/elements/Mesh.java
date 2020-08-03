@@ -17,11 +17,15 @@ public class Mesh extends GeoElement{
 		this.name = name;
 	}
 	
+	public String getName() {
+		return this.name;
+	}
+	
 	public void addAll(ArrayList<Face> faces) {
 			this.faces.addAll(faces);
 	}
 	
-	public void add(Face f) {
+	public void addFace(Face f) {
 		this.faces.add(f);
 	}
 	
@@ -43,7 +47,7 @@ public class Mesh extends GeoElement{
 		for(Face face : getFaces()) {
 			LinkedList<Integer> verticesOfFace = new LinkedList<Integer>();
 			
-			for(Point p : face.getVertices()) {
+			for(Point p : face.getPoints()) {
 				if(renderedVerticesMap.containsKey(p)) {
 					verticesOfFace.add(renderedVerticesMap.get(p));
 				
@@ -75,13 +79,12 @@ public class Mesh extends GeoElement{
 		
 	}
 
-	
-	public String info() {
+	public String toString() {
 		StringBuilder allInfo = new StringBuilder();
 		
 		allInfo.append("--Mesh named \""+name+"\" with following elements : \n");
-		for(Face f : faces)
-		  allInfo.append("--"+ f.info() + "\n");
+		for(Face f : getFaces())
+		  allInfo.append("--"+ f + "\n");
 	
 		return allInfo.toString();
 	}

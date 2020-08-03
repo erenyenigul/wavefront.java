@@ -15,9 +15,9 @@ public class CreationOperations {
 			face = face.rotate();
 		}
 		
-		extruded.add(face);
+		extruded.addFace(face);
 
-		Point[] verticesOfFace = face.getVertices();
+		Point[] verticesOfFace = face.getPointsAsArray();
 		Point[] verticesOfUpperFace = new Point[verticesOfFace.length];
 
 		verticesOfUpperFace[0] = verticesOfFace[0].shift(directionVector);
@@ -29,46 +29,71 @@ public class CreationOperations {
 			verticesOfUpperFace[i] = upperNextVertex;
 			Point upperLastVertex = verticesOfUpperFace[i - 1];
 			Face f = new Face(lastVertex, upperLastVertex, upperNextVertex, nextVertex);
-			extruded.add(f);
+			extruded.addFace(f);
 		}
 		Face lastSideOfMesh = new Face(verticesOfFace[verticesOfFace.length - 1],
 				verticesOfUpperFace[verticesOfFace.length - 1], verticesOfUpperFace[0], verticesOfFace[0]);
-		extruded.add(lastSideOfMesh);
+		extruded.addFace(lastSideOfMesh);
 		
 
 		Face upperFace = new Face(verticesOfUpperFace);
-		extruded.add( upperFace.rotate());
+		extruded.addFace( upperFace.rotate());
 
 		return extruded;
 	}
 
 	public static Mesh loft(Surface surface1, Surface surface2, int segmentNum, double scaleFactor) throws DivisionsNotMatchException {
-
+		
+		Mesh lofted = new Mesh("Lofted mesh from surfaces :" +surface1 + " " + surface2);
 		
 		Curve s1 = surface1.getOuterEdges();
 		Curve s2 = surface2.getOuterEdges();
                    
 		if(s1.getDivisions() != s2.getDivisions()) throw new DivisionsNotMatchException();
 		
-		Mesh lofted = new Mesh("Lofted mesh from surfaces :" +s1 + " " + s2);
-    	
-		lofted.addAll(surface1.getFrontFaces());
-		lofted.addAll(surface2.getFrontFaces());
-
-		Vector shiftVector = new Vector(s1.getCenterOfMass(), s2.getCenterOfMass()).scale(1.0 / (segmentNum+1));
+		Vector directionVector = new Vector(s1.getCenterOfMass(), s2.getCenterOfMass());
+		
+		if(!(s1.getNormal().degreeBetween(directionVector) < Math.PI/2)) {
+			s1.rotate();
+			lofted.addAll(surface1.getFrontFaces());
+		}
+		else
+			lofted.addAll(surface1.getBottomFaces());
+		if(!(s2.getNormal().degreeBetween(directionVector.scale(-1)) < Math.PI/2)) {
+			s2.rotate();
+			lofted.addAll(surface1.getFrontFaces());
+		}
+		else
+			lofted.addAll(surface2.getBottomFaces());
+		
+		Point firstCurvePivot = s1.getPoints().get(0);
+		Line l = new Line(firstCurvePivot, directionVector);
+		
+		
+		
+		
+		Vector shiftVector = directionVector.scale(1.0 / (2*segmentNum+2));
 		Curve lastFace = s1;
+		double segmentScaleFactor = Math.pow(scaleFactor, 1.0 / (segmentNum));
+		for (int i = 0; i < 2*segmentNum+2 ; i++) {
+			Curve nextFace = lastFace.duplicate();
+			if (i < segmentNum+1) {
+				nextFace.scale(segmentScaleFactor).shift(shiftVector);
+				lofted.addAll(formSideFaces(lastFace.getPointsAsArray(), nextFace.getPointsAsArray()));
+			}				
+			else if(i == segmentNum+1) {
+				nextFace = s2.duplicate();
+				nextFace.shift(shiftVector.scale(-1*segmentNum));
+				nextFace.scale(scaleFactor);
+				lofted.addAll(formSideFaces(nextFace.getPointsAsArray(), lastFace.getPointsAsArray()));
 
-		for (int i = 0; i < segmentNum+1 ; i++) {
-			Curve nextFace = null;
-			if (i < segmentNum / 2)
-				nextFace = lastFace.scale(Math.pow(scaleFactor, 2.0 / segmentNum)).shift(shiftVector);
-			else if (i == segmentNum / 2)
-				nextFace = s2.scale(scaleFactor).shift(shiftVector.scale(-1 * segmentNum / 2));
-			else
-				nextFace = lastFace.scale(Math.pow(1 / scaleFactor, 2.0 / segmentNum)).shift(shiftVector);
-
-			lofted.addAll(formSideFaces(lastFace.getPoints().toArray(new Point[lastFace.getPoints().size()]), nextFace.getPoints().toArray(new Point[nextFace.getPoints().size()])));
-			lastFace = nextFace;
+			}
+			else {
+				nextFace.scale(1/segmentScaleFactor).shift(shiftVector);
+				lofted.addAll(formSideFaces(nextFace.getPointsAsArray(), lastFace.getPointsAsArray()));
+			}
+				
+			lastFace = nextFace.duplicate();
 		}
 
 		
@@ -80,24 +105,16 @@ public class CreationOperations {
 
 		ArrayList<Face> faces = new ArrayList<Face>();
         
-		
-		if (face.getNormal().degreeBetween(directionVector) < Math.PI / 2) {
-			face = face.rotate();
-		}
-		
 		for (int i = 1; i < verticesOfFirst.length; i++) {
 			Point nextVertex = verticesOfFirst[i];
 			Point lastVertex = verticesOfFirst[i - 1];
 			Point upperNextVertex = verticesOfSecond[i];
 			Point upperLastVertex = verticesOfSecond[i - 1];
-			faces.add(new Face(lastVertex, upperLastVertex, upperNextVertex, nextVertex));
+			faces.add(new Face(lastVertex, nextVertex, upperNextVertex, upperLastVertex));
 		}
-		Face lastSideOfMesh = new Face(verticesOfFirst[verticesOfFirst.length - 1],
-									   verticesOfSecond[verticesOfFirst.length - 1], verticesOfSecond[0], verticesOfFirst[0]);
+		Face lastSideOfMesh = new Face(verticesOfFirst[verticesOfFirst.length - 1],  verticesOfFirst[0], 
+									   verticesOfSecond[0], verticesOfSecond[verticesOfFirst.length - 1]);
 		faces.add(lastSideOfMesh);
-        Mesh m = new Mesh(verticesOfFirst.toString());
-        m.addAll(faces);
-        m.saveAsObjFile();
 		return faces;
 	}
 

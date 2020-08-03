@@ -102,7 +102,7 @@ public class Surface extends Mesh {
 		HashMap<PointDuple,Integer> edges = new HashMap<>();
 		//Detecting edges which are only visited once
 		for(Face face : frontFaces) {
-			Point[] vertices = (Point[]) face.getVertices().toArray();
+			Point[] vertices = face.getPointsAsArray();
 			for(int i = 1; i<vertices.length; i++) {
 				PointDuple edge = new PointDuple(vertices[i-1], vertices[i]);
 				Integer val = edges.remove(edge);
@@ -123,6 +123,7 @@ public class Surface extends Mesh {
 		                                                            		 	(entry)-> entry.getKey().second));
 		//Assembling edges
 		Curve curve = new Curve();
+		System.out.println(onceVisitedEdges);
 		Point p0 = onceVisitedEdges.keySet().iterator().next();
 		
 		Point currentPoint = p0;
@@ -146,4 +147,9 @@ public class Surface extends Mesh {
 		copyFaces.addAll(frontFaces);
 		return new Surface("Duplicated Surface", copyFaces);
 	}
+	
+	public String toString() {
+		return "[Surface : " +getName() + " ]";
+	}
+	
 }

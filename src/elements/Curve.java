@@ -22,10 +22,10 @@ public class Curve extends PointGroup {
 	public Curve shift(Vector shiftVector) {super.shift(shiftVector); return this;}
 	public Curve rotate() {super.rotate(); return this;}
 	public Curve scale(double scaleFactor) { super.scale(scaleFactor); return this;}
-	public Curve duplicate() {return new Curve((Point[]) this.points.toArray());}
+	public Curve duplicate() {return new Curve(getPointsAsArray());}
 	
 	public String toString() {
-		return getPoints().toString();
+		return "[Curve : "+ points +"]";
 	}
 		
 }
