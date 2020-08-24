@@ -6,6 +6,7 @@ Here's the list of classes:
 [Vector](#class-vector)
 
 <h2 id="class-point">Point</h2>
+
 Point is a **_immutable_** class which can be used to define _Vectors_, _Faces_ and many more. 
 To define a _Point_, 
 ```Java
