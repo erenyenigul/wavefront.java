@@ -3,6 +3,7 @@ Polygon Mesh Library for generating basic meshes.
 Here's the list of classes:
 
 [Point](#class-point)
+
 [Vector](#class-vector)
 
 <h2 id="class-point">Point</h2>
@@ -10,7 +11,7 @@ Here's the list of classes:
 Point is a **_immutable_** class which can be used to define _Vectors_, _Faces_ and many more. 
 To define a _Point_, 
 ```Java
-Point p = new Point(X,Y,Z);
+Point p = new Point(double X, double Y, double Z);
 ```
 If you need origin, you can directly call the static variable _ORIGIN_,
 ```Java
@@ -20,26 +21,59 @@ Point origin = Point.ORIGIN;
 ```
 ### Methods
 #### getX(),getY(),getZ() 
-_returns *double*_
+_returns **double**_
 ```Java
 double xCoordMyPoint = myPoint.getX(); 
 ```
 #### distanceToPoint(Point p) 
-_returns *double*_
+_returns **double**_
 ```Java
 double distance = myPoint.distanceToPoint(otherPoint);
 ```
 #### shift(Vector v) 
-_returns *Point*_
+_returns **Point**_
 ```Java
 Point shiftedPoint = myPoint.shift(myVector);
 ```
-! Do not forget that _Point_ is an immutable class. Methods like this does not affect the point itself, but outputs new instances !
+> Do not forget that _Point_ is an immutable class. Methods like this does not affect the point itself, but outputs new instances!
 
-## Vector {#class-vector}
+<h2 id="class-vector">Vector</h2>
 
-To define a vector 
-
+Vectors allow you to do many different operations. 
+To define them, you can use any of the ways below:
 ```
-Vector v = new Vector();
+Vector v = new Vector(Point head);
+//or
+Vector v = new Vector(Point tail, Point head);
+//or 
+Vector v = new Vector(double X, double Y, double Z);
 ```
+> _Vector_ s in JavaMesh do not have the instance **tail**. Constructor with **tail** (which is the second example above), forms a new **head**, and creates a vector which is a shifted-to-origin version of the vector with user-given **tail** and **head** .
+
+### Methods
+#### getHead() 
+_returns **Point**_
+
+#### length()
+_returns **double**_
+
+#### getUnitVector()
+_returns **Vector**_
+
+Returns a unit vector which has the same direction as the vector itself
+
+#### cross(Vector v)
+_returns **Vector**_
+
+Get the cross product of the vector with **v** .
+
+#### dot(Vector v)
+_returns **double**_
+
+Get the dot product of the vector with **v** .
+
+#### degreeBetween(Vector v)
+_returns **double**_
+
+
+>Return value is radians.
