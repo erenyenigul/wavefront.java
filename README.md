@@ -5,7 +5,7 @@ Here's the list of classes:
 [Point](#class-point)
 [Vector](#class-vector)
 
-## Point {#class-point}
+## Point {class-point}
 Point is a **_immutable_** class which can be used to define _Vectors_, _Faces_ and many more. 
 To define a _Point_, 
 ```Java
