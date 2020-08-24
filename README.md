@@ -1,9 +1,11 @@
 # JavaMesh Documentation
 Polygon Mesh Library for generating basic meshes. 
 Here's the list of classes:
-[Point](#point)
-[Vector](#vector)
-## Point {#point}
+
+[Point](#class-point)
+[Vector](#class-vector)
+
+## Point {#class-point}
 Point is a **_immutable_** class which can be used to define _Vectors_, _Faces_ and many more. 
 To define a _Point_, 
 ```Java
@@ -33,7 +35,7 @@ Point shiftedPoint = myPoint.shift(myVector);
 ```
 ! Do not forget that _Point_ is an immutable class. Methods like this does not affect the point itself, but outputs new instances !
 
-## Vector {#vector}
+## Vector {#class-vector}
 
 To define a vector 
 
