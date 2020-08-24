@@ -19,18 +19,20 @@ Point origin = new Point(0,0,0);
 //But instead,
 Point origin = Point.ORIGIN;
 ```
+
 ### Methods
-#### getX(),getY(),getZ() 
+
+##### getX(),getY(),getZ() 
 _returns **double**_
 ```Java
 double xCoordMyPoint = myPoint.getX(); 
 ```
-#### distanceToPoint(Point p) 
+##### distanceToPoint(Point p) 
 _returns **double**_
 ```Java
 double distance = myPoint.distanceToPoint(otherPoint);
 ```
-#### shift(Vector v) 
+##### shift(Vector v) 
 _returns **Point**_
 ```Java
 Point shiftedPoint = myPoint.shift(myVector);
@@ -51,28 +53,28 @@ Vector v = new Vector(double X, double Y, double Z);
 > _Vector_ s in JavaMesh do not have the instance **tail**. Constructor with **tail** (which is the second example above), forms a new **head**, and creates a vector which is a shifted-to-origin version of the vector with user-given **tail** and **head** .
 
 ### Methods
-#### getHead() 
+##### getHead() 
 _returns **Point**_
 
-#### length()
+##### length()
 _returns **double**_
 
-#### getUnitVector()
+##### getUnitVector()
 _returns **Vector**_
 
 Returns a unit vector which has the same direction as the vector itself
 
-#### cross(Vector v)
+##### cross(Vector v)
 _returns **Vector**_
 
 Get the cross product of the vector with **v** .
 
-#### dot(Vector v)
+##### dot(Vector v)
 _returns **double**_
 
 Get the dot product of the vector with **v** .
 
-#### degreeBetween(Vector v)
+##### degreeBetween(Vector v)
 _returns **double**_
 
 
