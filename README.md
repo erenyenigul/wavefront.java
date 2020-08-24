@@ -21,11 +21,6 @@ Point origin = Point.ORIGIN;
 ```
 
 ### Methods
-| Name  |      Return Type      |  Details |
-|----------|:-------------:|------:|
-| col 1 is |  left-aligned | $1600 |
-| col 2 is |    centered   |   $12 |
-| col 3 is | right-aligned |    $1 |
 
 #### getX(),getY(),getZ() 
 ##### _returns **double**_
@@ -44,20 +39,23 @@ Point shiftedPoint = myPoint.shift(myVector);
 ```
 > Do not forget that _Point_ is an immutable class. Methods like this does not affect the point itself, but outputs new instances!
 
+---
+
 <h2 id="class-vector">Vector</h2>
 
-Vectors allow you to do many different operations. 
-To define them, you can use any of the ways below:
+Vectors allow you to do many different operations. _Vector_ is an immutable class. 
+To define a _Vector_, you can use any of the ways below:
 ```
 Vector v = new Vector(Point head);
 //or
 Vector v = new Vector(Point tail, Point head);
 //or 
-Vector v = new Vector(double X, double Y, double Z);
+Vector v = new Vector(double headX, double headY, double headZ);
 ```
 > _Vector_ s in JavaMesh do not have the instance **tail**. Constructor with **tail** (which is the second example above), forms a new **head**, and creates a vector which is a shifted-to-origin version of the vector with user-given **tail** and **head** .
 
 ### Methods
+
 #### getHead() 
 ##### _returns **Point**_
 
@@ -66,21 +64,32 @@ Vector v = new Vector(double X, double Y, double Z);
 
 #### getUnitVector()
 ##### _returns **Vector**_
-
 Returns a unit vector which has the same direction as the vector itself
 
 #### cross(Vector v)
 ##### _returns **Vector**_
-
 Get the cross product of the vector with **v** .
 
 #### dot(Vector v)
 ##### _returns **double**_
-
 Get the dot product of the vector with **v** .
 
 #### degreeBetween(Vector v)
 ##### _returns **double**_
-
-
 >Return value is radians.
+
+#### add(Vector v), substract(Vector v)
+##### _returns **Vector**_
+
+#### scale(double scaleFactor)
+##### _returns **Vector**_
+Returns a new vector which is a scaled version of the original.
+
+#### rotate(double angle, Vector axisOfRotation)
+##### _returns **Vector**_
+>Angle must be in radians.
+
+#### isZeroVector()
+##### _returns **boolean**_
+
+---
