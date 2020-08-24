@@ -41,7 +41,8 @@ Point shiftedPoint = myPoint.shift(myVector);
 ```
 > Do not forget that _Point_ is an immutable class. Methods like this does not affect the point itself, but outputs new instances!
 
----
+___
+
 
 <h2 id="class-vector">Vector</h2>
 
@@ -54,7 +55,7 @@ Vector v = new Vector(Point tail, Point head);
 //or 
 Vector v = new Vector(double headX, double headY, double headZ);
 ```
-> _Vector_ s in JavaMesh do not have the instance **tail**. Constructor with **tail** (which is the second example above), forms a new **head**, and creates a vector which is a shifted-to-origin version of the vector with user-given **tail** and **head** .
+> _Vector_ s in JavaMesh do not have the instance **tail**. Constructor with **tail** (which is the second example above), forms a new **head**, and creates a vector which is a shifted-to-origin version of the vector with user-given **tail** and **head**
 
 ### Methods
 
@@ -66,15 +67,18 @@ Vector v = new Vector(double headX, double headY, double headZ);
 ---
 #### getUnitVector()
 ##### _returns **Vector**_
-Returns a unit vector which has the same direction as the vector itself
+Returns a unit vector which has the same direction as the vector itself.
+
 ---
 #### cross(Vector v)
 ##### _returns **Vector**_
 Get the cross product of the vector with **v** .
+
 ---
 #### dot(Vector v)
 ##### _returns **double**_
 Get the dot product of the vector with **v** .
+
 ---
 #### degreeBetween(Vector v)
 ##### _returns **double**_
@@ -86,11 +90,12 @@ Get the dot product of the vector with **v** .
 #### scale(double scaleFactor)
 ##### _returns **Vector**_
 Returns a new vector which is a scaled version of the original.
+
 ---
 #### rotate(double angle, Vector axisOfRotation)
 ##### _returns **Vector**_
 >Angle must be in radians.
----
+___
 #### isZeroVector()
 ##### _returns **boolean**_
 
