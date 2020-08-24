@@ -27,11 +27,13 @@ Point origin = Point.ORIGIN;
 ```Java
 double xCoordMyPoint = myPoint.getX(); 
 ```
+---
 #### distanceToPoint(Point p) 
 ##### _returns **double**_
 ```Java
 double distance = myPoint.distanceToPoint(otherPoint);
 ```
+---
 #### shift(Vector v) 
 ##### _returns **Point**_
 ```Java
@@ -58,38 +60,37 @@ Vector v = new Vector(double headX, double headY, double headZ);
 
 #### getHead() 
 ##### _returns **Point**_
-
+---
 #### length()
 ##### _returns **double**_
-
+---
 #### getUnitVector()
 ##### _returns **Vector**_
 Returns a unit vector which has the same direction as the vector itself
-
+---
 #### cross(Vector v)
 ##### _returns **Vector**_
 Get the cross product of the vector with **v** .
-
+---
 #### dot(Vector v)
 ##### _returns **double**_
 Get the dot product of the vector with **v** .
-
+---
 #### degreeBetween(Vector v)
 ##### _returns **double**_
 >Return value is radians.
-
+---
 #### add(Vector v), substract(Vector v)
 ##### _returns **Vector**_
-
+---
 #### scale(double scaleFactor)
 ##### _returns **Vector**_
 Returns a new vector which is a scaled version of the original.
-
+---
 #### rotate(double angle, Vector axisOfRotation)
 ##### _returns **Vector**_
 >Angle must be in radians.
-
+---
 #### isZeroVector()
 ##### _returns **boolean**_
 
----
