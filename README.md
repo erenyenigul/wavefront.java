@@ -6,11 +6,14 @@ Here's the list of classes:
 
 [Vector](#class-vector)
 
-[Face]
+[Face](#class-face)
 
-[Surface]
+[Mesh](#class-mesh)
 
-[Creation Operations]
+[Creation Operations](#class-creation)
+
+[Surface](#class-surface)
+
 
 <h2 id="class-point">Point</h2>
 
@@ -104,4 +107,21 @@ Returns a new vector which is a scaled version of the original.
 ___
 #### isZeroVector()
 ##### _returns **boolean**_
+
+<h2 id="class-face">Face</h2>
+
+<h2 id="class-mesh">Mesh</h2>
+
+Mesh is a collection of Faces.
+
+Use .saveAsObj() to save it as .obj file.
+
+<h2 id="class-creation">Creation Operations</h2>
+
+#### static extrude(Face f, Vector directionVector)
+##### _returns **Mesh**_
+
+#### static loft(Surface s1, Surface s2, int segmentNum, double scaleFactor)
+##### _returns **Mesh**_
+
 
