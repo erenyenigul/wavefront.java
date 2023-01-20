@@ -1,18 +1,26 @@
-# JavaObj Documentation
-Polygon Mesh Library for generating basic meshes. Produces .obj files. 
+# wavefront.java 
+
+This library provides a set of classes and methods for creating and exporting 3D models in the Wavefront OBJ file format. The library supports creating and manipulating vertices, faces and meshes in a simple and intuitive way.
+
+### Features 🛠
+- Create and manipulate 3D models with vertices, faces, and texture coordinates
+- Export models to the Wavefront OBJ file format
+- Define meshes (combination of faces), extrude and loft faces,
+- Easy to use and integrate into existing Java projects
+
 Here's the list of classes:
 
-[Point](#class-point)
+- [Point](#class-point)
 
-[Vector](#class-vector)
+- [Vector](#class-vector)
 
-[Face](#class-face)
+- [Face](#class-face)
 
-[Mesh](#class-mesh)
+- [Mesh](#class-mesh)
 
-[Creation Operations](#class-creation)
+- [Creation Operations](#class-creation)
 
-[Surface](#class-surface)
+- [Surface](#class-surface)
 
 
 <h2 id="class-point">Point</h2>
