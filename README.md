@@ -1,4 +1,4 @@
-# JavaMesh Documentation
+# JavaObj Documentation
 Polygon Mesh Library for generating basic meshes. Produces .obj files. 
 Here's the list of classes:
 
